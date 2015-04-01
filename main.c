@@ -6,13 +6,13 @@ int main()
 {
    //Initializing variables
    	//Change values of the pid/sampletime parameters here
-	double k_p = 1;
-	double k_i = 1;
-	double k_d =1;
-	double T_f = 1;
-	double K = 1;
-	double T = 1;
-	double h = 0.1; // sample time
+	const double k_p = 4;
+	const double k_i = 0.5;
+	const double k_d =2;
+	const double T_f = 4;
+	const double K = 2;
+	const double T = 3;
+	const double h = 0.1; // sample time
 	
 	FILE *ifp,*ofp;
 	
@@ -51,9 +51,11 @@ int main()
 		// Controller Model
 		u_1 = k_p * error ;
 		u_2 = u_2_1t + (k_i * h *error/2)+(k_i * h *error_1t/2);
-		//u_3 = (1/((2*h) + (T_f*h*h)))*(-(u_3_t*2*T_f*h)-(u_3_2t*(T_f*h-(2*h)))+(4*k_d*(error-2*error_1t+error_2t)));
 		u_3 = (-(-T_f+h)*u_3_2t - 2*h*u_3_t - 2*k_d*error_2t + 2*k_d*error)/(2*T_f + h);
 		u = u_1 + u_2 + u_3 ;
+		
+
+		//printf("%e\n",u);		//Uncomment this line if you'd like to see the control signal
 
 		u_2_1t = u_2;		
 		
